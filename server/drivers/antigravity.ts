@@ -14,6 +14,7 @@ import type {
 } from "../contracts.ts";
 import { createAcpDriver, type AcpConfig, type AcpSupport } from "./acp/core.ts";
 import { reportedConfigValue } from "./acp/applied-config.ts";
+import { ANTIGRAVITY_HARNESS_FAILURE_LOG } from "./acp/harness-failure.ts";
 import {
   antigravityClientInfo,
   antigravityProfileAuthenticated,
@@ -133,6 +134,10 @@ const support: AcpSupport = {
   // The packaged runtime unpacks and loads a ~1 GB Python bundle before it answers initialize (STARTUP_TIMEOUT_MS).
   coldStartCost: "expensive",
   sessionSetupTimeoutMs: ANTIGRAVITY_SESSION_SETUP_TIMEOUT_MS,
+  stderrFailure: {
+    line: ANTIGRAVITY_HARNESS_FAILURE_LOG,
+    message: "Antigravity's local agent connection failed. Send the message again to continue in a fresh Antigravity process.",
+  },
   clientFileSystem: true,
   clientReadRoots: (turn) => (turn.skillFiles ?? []).map(dirname),
   sanitizeToolPayload: true,
